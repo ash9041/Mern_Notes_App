@@ -8,7 +8,7 @@
     "server": "nodemon index.js"
   },
   "keywords": ["react", "mern", "mongodb", "express", "nodejs", "notes", "notes-app"],
-  "author": "arunopal",
+  "author": "yash kumar",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",

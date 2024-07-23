@@ -50,6 +50,7 @@ export default function Notespage()
           finalFocusRef={finalRef}
           isOpen={isOpen}
           onClose={onClose}
+          isCentered
         >
           <ModalOverlay />
           <ModalContent>

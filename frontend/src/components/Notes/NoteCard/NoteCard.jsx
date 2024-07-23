@@ -13,8 +13,10 @@ import {
     ModalCloseButton,
     Input,
     Textarea,
-    useDisclosure
+    useDisclosure,
+     IconButton 
 } from "@chakra-ui/react";
+import { EditIcon ,DeleteIcon} from '@chakra-ui/icons'; 
 
 export default function NoteCard({title, body, user, _id}){
     
@@ -40,12 +42,14 @@ export default function NoteCard({title, body, user, _id}){
         <CardFooter height={"30%"}>
             <HStack width = {"100%"}>
                 <>
-                <Button bgColor={"#00e9bf"} onClick={onOpen}>Update</Button>
+                <Button bgColor={"#00e9bf"} onClick={onOpen}><EditIcon mr={2} />
+        Edit</Button>
                     <Modal
                     initialFocusRef={initialRef}
                     finalFocusRef={finalRef}
                     isOpen={isOpen}
-                    onClose={onClose}
+                        onClose={onClose}
+                        isCentered
                     >
                     <ModalOverlay />
                     <ModalContent>
@@ -62,6 +66,7 @@ export default function NoteCard({title, body, user, _id}){
                         <Button colorScheme="blue" mr={3} onClick={updateNote}>
                             Update
                         </Button>
+                         
                         <Button onClick={onClose}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>
@@ -69,7 +74,7 @@ export default function NoteCard({title, body, user, _id}){
                 </>
                 <Button bgColor={"#00e9bf"} onClick={()=>{
                     dispatch(deleteNotes(_id))
-                }}>Delete</Button>
+                }}><DeleteIcon mr={2} />Delete</Button>
             </HStack>
         </CardFooter>
     </Card>

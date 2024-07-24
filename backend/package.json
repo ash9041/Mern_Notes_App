@@ -1,5 +1,5 @@
 {
-  "name": "notes-backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "Backend for a React Notes App, uses MERN stack",
   "main": "index.js",

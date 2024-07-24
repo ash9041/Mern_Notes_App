@@ -14,7 +14,7 @@ import {
     Input,
     Textarea,
     useDisclosure,
-     IconButton 
+     AlertDialog,AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay
 } from "@chakra-ui/react";
 import { EditIcon ,DeleteIcon} from '@chakra-ui/icons'; 
 
@@ -22,15 +22,21 @@ export default function NoteCard({title, body, user, _id}){
     
     const dispatch = useDispatch()
     const { isOpen, onOpen, onClose } = useDisclosure()
+     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
     const initialRef = useRef(null)
     const finalRef = useRef(null)
     const [notes, setNotes] = useState([])
     const [tempTitle, setTitle] = useState(title)
     const [tempBody, setBody] = useState(body)
+    const cancelRef = useRef();
     const updateNote = ()=>{
         dispatch(updateNotes(_id, {title: tempTitle, body: tempBody}))
         onClose()
     }
+    const handleDelete = () => {
+    dispatch(deleteNotes(_id));
+    onDeleteClose();
+  };
 
     return <Card className="card" align={"center"} size='md'>
         <CardHeader height={"20%"} alignItems={'center'}>
@@ -72,9 +78,41 @@ export default function NoteCard({title, body, user, _id}){
                     </ModalContent>
                     </Modal>
                 </>
-                <Button bgColor={"#00e9bf"} onClick={()=>{
-                    dispatch(deleteNotes(_id))
-                }}><DeleteIcon mr={2} />Delete</Button>
+                     <Button bgColor={"#00e9bf"} onClick={onDeleteOpen}>
+                    <DeleteIcon mr={2} /> Delete
+                    </Button>
+                
+
+                    <AlertDialog
+                    isOpen={isDeleteOpen}
+                    leastDestructiveRef={cancelRef}
+                    onClose={onDeleteClose}
+                    isCentered
+                    >
+                    <AlertDialogOverlay>
+                    <Flex align="center" justify="center" minH="100vh">
+                        <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete Note
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Are you sure you want to delete this note? This action cannot be undone.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onDeleteClose}>
+                            Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                            Delete
+                            </Button>
+                        </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </Flex>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+
             </HStack>
         </CardFooter>
     </Card>

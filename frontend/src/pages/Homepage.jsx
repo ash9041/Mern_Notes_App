@@ -20,13 +20,13 @@ import {
           <Stack spacing={6} w={'full'} maxW={'lg'}>
             <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
               <Text color={'#5b9cf2'} as={'span'}>
-                Your Notes
+                 NoteCraft
               </Text>{' '}
             </Heading>
             <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
-              A note taking app built using MongoDB, Express, React and Node.JS
+             Your Ultimate Note-Taking Companion
             </Text>
-            <Stack direction={'row'} spacing={4}>
+            <Stack direction={'row'} spacing={4} justifyContent={'center'} >
               <Button
                 rounded={'full'}
                 bg={'blue.400'}
@@ -42,14 +42,14 @@ import {
               <Button rounded={'full'} onClick={()=>{nav("/register")}}>Sign Up</Button>
             </Stack>
             <Spacer />
-            <Image src="/mern.png" />
+            <Image src="/grp.png" />
           </Stack>
         </Flex>
         <Flex flex={1}>
           <Image
             alt={'Login Image'}
             objectFit={'cover'}
-            src="/homebg.jpeg"
+            src="/homebg1.jpg"
           />
         </Flex>
       </Stack>

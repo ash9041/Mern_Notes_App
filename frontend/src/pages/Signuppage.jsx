@@ -13,6 +13,7 @@ import {
     Text,
     useColorModeValue,
     Link,
+     useToast,
   } from '@chakra-ui/react';
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -28,21 +29,45 @@ import { BASE_URL } from '../constants/config';
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false);
-
-    const handleSignUp = async()=>{
+    const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+    const handleSignUp = async () => {
+      setIsLoading(true);
+      try{
       let data = await axios.post(BASE_URL+"/user/register", {
           name, email, password
       })
-      let {message, status} = data.data
-      if(status == 1)
-      {
-        alert(message)
-        nav("/login")
+     let { message, status } = data.data;
+      if (status === 1) {
+        toast({
+          title: "Registration successful.",
+          description: message,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        nav("/login");
+      } else {
+        toast({
+          title: "Registration failed.",
+          description: message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
-      else
-      {
-        alert(message)
+    } catch (error) {
+      toast({
+        title: "An error occurred.",
+        description: "Unable to register user.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       }
+      finally {
+      setIsLoading(false); 
+    }
     }
   
     return (
@@ -51,15 +76,14 @@ import { BASE_URL } from '../constants/config';
         align={'center'}
         justify={'center'}
         bg={useColorModeValue('gray.50', 'gray.800')}>
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-          <Stack align={'center'}>
-            <Heading fontSize={'4xl'} textAlign={'center'}>
+        <Stack spacing={8}  mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+        <Heading fontSize={'4xl'} textAlign={'center'}>
               Sign up
             </Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
-              to enjoy all of our cool features ✌️
-            </Text>
+           
           </Stack>
+        
           <Box
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.700')}
@@ -90,18 +114,20 @@ import { BASE_URL } from '../constants/config';
                 </InputGroup>
               </FormControl>
               <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={'blue.400'}
-                  color={'white'}
-                  onClick = {handleSignUp}
-                  _hover={{
-                    bg: 'blue.500',
-                  }}>
-                  Sign up
-                </Button>
-              </Stack>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={'blue.400'}
+                color={'white'}
+                onClick={handleSignUp}
+                isLoading={isLoading} 
+                _hover={{
+                  bg: 'blue.500',
+                }}
+              >
+                Sign up
+              </Button>
+            </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
                   Already a user? <Link onClick={()=>{
